@@ -4,6 +4,7 @@ import { PeerSyncStatus, SyncAwarenessState } from '@/types/sync';
 
 export enum SidebarTabKey {
   Chat = 'chat',
+  Knowledge = 'knowledge',
   Market = 'market',
   Setting = 'settings',
 }

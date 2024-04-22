@@ -20,13 +20,10 @@ import {
 import { GlobalStore } from '@/store/global';
 import { ChatModelCard } from '@/types/llm';
 import { GlobalLLMConfig, GlobalLLMProviderKey } from '@/types/settings';
-import { setNamespace } from '@/utils/storeDebug';
 
 import { CustomModelCardDispatch, customModelCardsReducer } from '../reducers/customModelCard';
 import { modelProviderSelectors } from '../selectors/modelProvider';
 import { settingsSelectors } from '../selectors/settings';
-
-const n = setNamespace('settings');
 
 /**
  * 设置操作
@@ -39,8 +36,8 @@ export interface LLMSettingsAction {
   /**
    * make sure the default model provider list is sync to latest state
    */
-  refreshDefaultModelProviderList: (params?: { trigger?: string }) => void;
-  refreshModelProviderList: (params?: { trigger?: string }) => void;
+  refreshDefaultModelProviderList: () => void;
+  refreshModelProviderList: () => void;
   removeEnabledModels: (provider: GlobalLLMProviderKey, model: string) => Promise<void>;
   setModelProviderConfig: <T extends GlobalLLMProviderKey>(
     provider: T,
@@ -72,7 +69,7 @@ export const llmSettingsSlice: StateCreator<
     await get().setModelProviderConfig(provider, { customModelCards: nextState });
   },
 
-  refreshDefaultModelProviderList: (params) => {
+  refreshDefaultModelProviderList: () => {
     /**
      * Because we have several model cards sources, we need to merge the model cards
      * the priority is below:
@@ -116,12 +113,12 @@ export const llmSettingsSlice: StateCreator<
       ZhiPuProviderCard,
     ];
 
-    set({ defaultModelProviderList }, false, n(`refreshDefaultModelList - ${params?.trigger}`));
+    set({ defaultModelProviderList }, false, 'refreshDefaultModelProviderList');
 
-    get().refreshModelProviderList({ trigger: 'refreshDefaultModelList' });
+    get().refreshModelProviderList();
   },
 
-  refreshModelProviderList: (params) => {
+  refreshModelProviderList: () => {
     const modelProviderList = get().defaultModelProviderList.map((list) => ({
       ...list,
       chatModels: modelProviderSelectors
@@ -139,7 +136,7 @@ export const llmSettingsSlice: StateCreator<
       enabled: modelProviderSelectors.isProviderEnabled(list.id as any)(get()),
     }));
 
-    set({ modelProviderList }, false, n(`refreshModelList - ${params?.trigger}`));
+    set({ modelProviderList }, false, 'refreshModelProviderList');
   },
 
   removeEnabledModels: async (provider, model) => {

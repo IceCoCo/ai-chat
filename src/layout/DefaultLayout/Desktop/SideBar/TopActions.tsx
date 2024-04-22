@@ -1,5 +1,6 @@
+import { SiKnowledgebase } from '@icons-pack/react-simple-icons';
 import { ActionIcon } from '@lobehub/ui';
-import { Compass, MessageSquare } from 'lucide-react';
+import { Book, Compass, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -41,6 +42,15 @@ const TopActions = memo<TopActionProps>(({ tab }) => {
           placement={'right'}
           size="large"
           title={t('tab.market')}
+        />
+      </Link>
+      <Link aria-label={t('tab.knowledge')} href={'/knowledge'}>
+        <ActionIcon
+          active={tab === SidebarTabKey.Knowledge}
+          icon={Book}
+          placement={'right'}
+          size="large"
+          title={t('tab.knowledge')}
         />
       </Link>
     </>

@@ -1,5 +1,4 @@
 import { SessionDefaultGroup, SessionGroupId } from '@/types/session';
-import { AsyncLocalStorage } from '@/utils/localStorage';
 
 export interface Guide {
   // Topic 引导
@@ -19,7 +18,6 @@ export interface GlobalPreference {
   showSessionPanel?: boolean;
   showSystemRole?: boolean;
   telemetry: boolean | null;
-
   /**
    * whether to use cmd + enter to send message
    */
@@ -28,10 +26,10 @@ export interface GlobalPreference {
 
 export interface GlobalPreferenceState {
   /**
-   * the user preference, which only store in local storage
+   *  用户偏好的 UI 状态
+   *  @localStorage
    */
   preference: GlobalPreference;
-  preferenceStorage: AsyncLocalStorage<GlobalPreference>;
 }
 
 export const initialPreferenceState: GlobalPreferenceState = {
@@ -47,5 +45,4 @@ export const initialPreferenceState: GlobalPreferenceState = {
     telemetry: null,
     useCmdEnterToSend: false,
   },
-  preferenceStorage: new AsyncLocalStorage('LOBE_PREFERENCE'),
 };

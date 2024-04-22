@@ -127,6 +127,7 @@ export default {
   },
   tab: {
     chat: '会话',
+    knowledge: '知识库',
     market: '发现',
     setting: '设置',
   },

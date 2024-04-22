@@ -147,7 +147,7 @@ export const createCommonSlice: StateCreator<
       },
       {
         onSuccess: (syncEnabled) => {
-          set({ syncEnabled }, false, n('useEnabledSync'));
+          set({ syncEnabled });
         },
         revalidateOnFocus: false,
       },
@@ -165,7 +165,7 @@ export const createCommonSlice: StateCreator<
 
           set({ defaultSettings, serverConfig: data }, false, n('initGlobalConfig'));
 
-          get().refreshDefaultModelProviderList({ trigger: 'fetchServerConfig' });
+          get().refreshDefaultModelProviderList();
         }
       },
       revalidateOnFocus: false,
@@ -188,7 +188,7 @@ export const createCommonSlice: StateCreator<
           );
 
           // when get the user config ,refresh the model provider list to the latest
-          get().refreshDefaultModelProviderList({ trigger: 'fetchUserConfig' });
+          get().refreshModelProviderList();
 
           const { language } = settingsSelectors.currentSettings(get());
           if (language === 'auto') {
